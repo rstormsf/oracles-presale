@@ -5,7 +5,7 @@
 [Full Test Report](https://rstormsf.github.io/oracles-presale/mochawesome.html)
 
 To use:
-1. Flat [contracts/PresaleOracles.sol](contracts/PresaleOracles.sol) by using github.com/oraclesorg/oracles-combine-solidity/commits/master
+1. Flat [contracts/PresaleOracles.sol](contracts/PresaleOracles.sol) by using [oracles-combine-solidity](github.com/oraclesorg/oracles-combine-solidity/commits/master)
 2. Deploy [flat file](flat/PresaleOracles_flat.sol)
 3. Call `initialize` with following params:
     -startTime in unix format
