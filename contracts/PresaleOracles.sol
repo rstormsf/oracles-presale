@@ -1,4 +1,3 @@
-// Build and Tested by Roman Storm rstormsf@gmail.com
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/token/BasicToken.sol";
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
@@ -6,6 +5,11 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 pragma solidity ^0.4.17;
 
 contract PresaleOracles is Ownable {
+/*
+ * PresaleOracles
+ * Simple Presale contract
+ * built by github.com/rstormsf Roman Storm
+ */
     using SafeMath for uint256;
     uint256 public startTime;
     uint256 public endTime;
@@ -33,6 +37,7 @@ contract PresaleOracles is Ownable {
         require(_cap != 0);
         require(_minimumContribution != 0);
         require(_vault != 0x0);
+        require(_cap > _minimumContribution);
         startTime = _startTime;
         endTime = _endTime;
         cap = _cap;
@@ -42,7 +47,7 @@ contract PresaleOracles is Ownable {
     }
     //TESTED by Roman Storm
     function buy() public payable {
-        require(isValidPurchase());
+        require(isValidPurchase(msg.value));
         require(isInitialized);
         require(getTime() >= startTime && getTime() <= endTime);
         address investor = msg.sender;
@@ -71,9 +76,10 @@ contract PresaleOracles is Ownable {
         return now;
     }
     //TESTED by Roman Storm
-    function isValidPurchase() public view returns(bool) {
-        bool hasMinimumAmount = investorBalances[msg.sender].add(msg.value) >= minimumContribution;
-        bool withinCap = totalInvestedInWei.add(msg.value) <= cap;
-        return hasMinimumAmount && withinCap;
+    function isValidPurchase(uint256 _amount) public view returns(bool) {
+        bool nonZero = _amount > 0;
+        bool hasMinimumAmount = investorBalances[msg.sender].add(_amount) >= minimumContribution;
+        bool withinCap = totalInvestedInWei.add(_amount) <= cap;
+        return hasMinimumAmount && withinCap && nonZero;
     }
 }
