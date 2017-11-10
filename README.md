@@ -8,6 +8,9 @@ It allows to set minimum Contrubution amount, start Date, end Date.
 
 To use:
 1. Flat [contracts/PresaleOracles.sol](contracts/PresaleOracles.sol) by using [solidity-flattener](https://github.com/BlockCatIO/solidity-flattener)
+```
+solidity_flattener --solc-paths=zeppelin-solidity=$(pwd)/node_modules/zeppelin-solidity/ contracts/PresaleOracles.sol --out flat/PresaleOracles_flat.sol
+```
 2. Deploy [flat file](flat/PresaleOracles_flat.sol)
 3. Call `initialize` with following params:
 
