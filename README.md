@@ -56,3 +56,7 @@ https://kovan.etherscan.io/tx/0xe17dfeabd9bc2f7adc28ec3b83c4bf011e1864066c02ef68
 Called fallback by non-whitelisted investor (expected an error) with 0.3 ether:
 https://kovan.etherscan.io/tx/0x391c1e4d838876e38e4631279a3c9856cc08e5ecedd2a4d0fae6990e127af432
 
+Called whitelistInvestors with params: [
+    "0x62D9FB3358B4b83dB0280Eacc6a0fA5C6dDc7B4d","0xc15Ac3555FD6d6b569B9762D5289A3cc31325B1b"
+]
+https://kovan.etherscan.io/tx/0x048978a970e317e0117a5e342c875032a044ce65f8c1f35a3e18f7b4e29f25de
