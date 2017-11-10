@@ -16,7 +16,6 @@ contract PresaleOracles is Ownable {
     uint256 public cap;
     uint256 public rate;
     uint256 public totalInvestedInWei;
-    uint256 public investorsLength;
     uint256 public minimumContribution;
     mapping(address => uint256) public investorBalances;
     address public vault;
@@ -42,7 +41,7 @@ contract PresaleOracles is Ownable {
         endTime = _endTime;
         cap = _cap;
         isInitialized = true;
-        minimumContribution =_minimumContribution;
+        minimumContribution = _minimumContribution;
         vault = _vault;
     }
     //TESTED by Roman Storm
