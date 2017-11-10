@@ -7,7 +7,7 @@ Presale contract that records investor's balances and sends ether to presale own
 It allows to set minimum Contrubution amount, start Date, end Date.
 
 To use:
-1. Flat [contracts/PresaleOracles.sol](contracts/PresaleOracles.sol) by using [oracles-combine-solidity](github.com/oraclesorg/oracles-combine-solidity/commits/master)
+1. Flat [contracts/PresaleOracles.sol](contracts/PresaleOracles.sol) by using [solidity-flattener](https://github.com/BlockCatIO/solidity-flattener)
 2. Deploy [flat file](flat/PresaleOracles_flat.sol)
 3. Call `initialize` with following params:
 
