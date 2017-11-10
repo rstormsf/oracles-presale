@@ -8,15 +8,19 @@ To use:
 1. Flat [contracts/PresaleOracles.sol](contracts/PresaleOracles.sol) by using [oracles-combine-solidity](github.com/oraclesorg/oracles-combine-solidity/commits/master)
 2. Deploy [flat file](flat/PresaleOracles_flat.sol)
 3. Call `initialize` with following params:
+
     -startTime in unix format 
+
     -endTime in unix format 
+
     -cap in wei format 
+
     -vault (eth address where funds will be collected) 
     
 Example: 
-    ```
+
     "1510291574","1610291574","100000000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
-    ```
+
     startTime: `Friday, November 10, 2017 5:26:14 AM `
     endTime: `Sunday, January 10, 2021 3:12:54 PM `
     cap: `100 eth `
