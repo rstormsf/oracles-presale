@@ -3,6 +3,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/rstormsf/oracles-presale/badge.svg?branch=master)](https://coveralls.io/github/rstormsf/oracles-presale?branch=master)
 
 [Full Test Report](https://rstormsf.github.io/oracles-presale/mochawesome.html)
+Presale contract that records investor's balances and sends ether to presale owner.
+It allows to set minimum Contrubution amount, start Date, end Date.
 
 To use:
 1. Flat [contracts/PresaleOracles.sol](contracts/PresaleOracles.sol) by using [oracles-combine-solidity](github.com/oraclesorg/oracles-combine-solidity/commits/master)
@@ -15,74 +17,100 @@ To use:
 
     -cap in wei format 
 
+    -minimumContribution in wei format
+
     -vault (eth address where funds will be collected) 
     
 Example: 
 
-    "1510291574","1610291574","100000000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
+    "1510291574","1610291574","100000000000000000000","100000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
 
     startTime: `Friday, November 10, 2017 5:26:14 AM `
     endTime: `Sunday, January 10, 2021 3:12:54 PM `
     cap: `100 eth `
+    minimum: `0.1 eth `
     vault: `0x0039f22efb07a647557c7c5d17854cfd6d489ef3`
-4. Whitelist investors by calling `whitelistInvestors` with array of addresses. Example:
-["0x62D9FB3358B4b83dB0280Eacc6a0fA5C6dDc7B4d","0xc15Ac3555FD6d6b569B9762D5289A3cc31325B1b"]
-5. Let whitelisted investors send money to contract's address
-
+4. Let investors send money to contract's address OR to send to `buy` method (`0xa6f2ae3a`)
 
 ```
-·------------------------------------------------------------------------|-----------------------------------·
-│                                  Gas                                   ·  Block limit: 17592186044415 gas  │
-··········································|······························|····································
-│  Methods                                ·          1 gwei/gas          ·          320.09 usd/eth           │
-···················|······················|·········|··········|·········|················|···················
-│  Contract        ·  Method              ·  Min    ·  Max     ·  Avg    ·  # calls       ·  usd (avg)       │
-···················|······················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  blacklistInvestor   ·  19691  ·   23538  ·  21615  ·             2  ·            0.01  │
-···················|······················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  buy                 ·      -  ·       -  ·      -  ·             0  ·               -  │
-···················|······················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  claimTokens         ·      -  ·       -  ·      -  ·             0  ·               -  │
-···················|······················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  initialize          ·  23128  ·  125421  ·  46650  ·             9  ·            0.01  │
-···················|······················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  Presale             ·      -  ·       -  ·      -  ·             0  ·               -  │
-···················|······················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  transferOwnership   ·      -  ·       -  ·      -  ·             0  ·               -  │
-···················|······················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  whitelistInvestor   ·  23428  ·   64377  ·  57552  ·             6  ·            0.02  │
-···················|······················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  whitelistInvestors  ·  23688  ·  119866  ·  87807  ·             3  ·            0.03  │
-·------------------|----------------------|---------|----------|---------|----------------|------------------·
+Contract: Presale
+    ✓ constructor should set owner
+    ✓ can not buy if not initialized (22623 gas)
+    #initilize
+      ✓ rejects if not sent by owner (25358 gas)
+      ✓ sets values (131519 gas)
+      ✓ cannot initialize twice (157189 gas)
+      ✓ startTime cannot be 0 (25102 gas)
+      ✓ endTime cannot be 0 (25166 gas)
+      ✓ endTime cannot be less than startTime (25358 gas)
+      ✓ cap cannot be 0 (24910 gas)
+      ✓ vault cannot be 0x0 (24078 gas)
+      ✓ minimumContribution cannot be 0 (24910 gas)
+    #buy
+      ✓ cannot buy if not value is 0 (64231 gas)
+      ✓ cannot buy if not value is less than minimum (64231 gas)
+      ✓ can not buy if time is not within startTime&endTime (116233 gas)
+      ✓ can not buy more than cap (64236 gas)
+      ✓ happy path (178974 gas)
 
-  22 passing (3m)
-  ```
+·-----------------------------------------------------------------------|-----------------------------------·
+│                                  Gas                                  ·  Block limit: 17592186044415 gas  │
+·········································|······························|····································
+│  Methods                               ·          1 gwei/gas          ·          297.51 usd/eth           │
+···················|·····················|·········|··········|·········|················|···················
+│  Contract        ·  Method             ·  Min    ·  Max     ·  Avg    ·  # calls       ·  usd (avg)       │
+···················|·····················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  buy                ·      -  ·       -  ·      -  ·             0  ·               -  │
+···················|·····················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  claimTokens        ·      -  ·       -  ·      -  ·             0  ·               -  │
+···················|·····················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  initialize         ·  24078  ·  131519  ·  46359  ·            10  ·            0.01  │
+···················|·····················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  Presale            ·      -  ·       -  ·      -  ·             0  ·               -  │
+···················|·····················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  transferOwnership  ·      -  ·       -  ·      -  ·             0  ·               -  │
+·------------------|---------------------|---------|----------|---------|----------------|------------------·
 
+  16 passing (2m)
+```
 # Testnet deployment
 
-Contract Deployment: https://kovan.etherscan.io/address/0x19001af36808e4c573a237bfc58ce282616f05b3#code
+Contract Deployment: https://kovan.etherscan.io/address/0xb9b49e21e77d2d89a9e4c7ef4f684ad2a4e99663#code
 
-Called Initialize by Owner with params: "1510291574","1610291574","100000000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
-https://kovan.etherscan.io/tx/0xd83f75af7f8ebb02c6f79cd8a6e57ce619311b65f41ec618936558de3c116af9
+Called Initialize by Owner with params: 
+"1510291574","1610291574","40000000000000000000000","1000000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
+(40000 eth cap, 1 eth minimum)
+https://kovan.etherscan.io/tx/0xc95047493d8eead08c3bef52c54cc2ffcbd2e0ef89c1ba1a719d28bd98011c84
 
-Called whitelist with params: 0x0039f22efb07a647557c7c5d17854cfd6d489ef3
-https://kovan.etherscan.io/tx/0x9781564e4365a35fc64694a777268de04bd21066126f6341f7eb3678fb820889
+Called fallback with 0.5 ether: (expected error)
+https://kovan.etherscan.io/tx/0x6f7335f55257a56f9382d47dfeacf26e482f3c6238e829dfbc5e143d6972f0e0
 
-Called fallback with 0 ether: (expected error)
-https://kovan.etherscan.io/tx/0x84abaa77a9f8b42799c00348a4d439db0af9b67ab45d252e7885b768e7ca9930
+Called buy(`0xa6f2ae3a`) with 1 ether:
+https://kovan.etherscan.io/tx/0xdbf29ed04dcb1a71e90f3a404739b6e3bb2c526b7788547ad9dc66e5eb64c79f
+Verified forwarded funds as internal transaction.
 
-Called fallback with 0.03 ether:
-https://kovan.etherscan.io/tx/0xdc32fa666a60fe8aa590d8fc7538b9e70852a2ae62750b7c0687d46e263d18ac
-Verified forwarded funds as internal transaction:
-https://kovan.etherscan.io/address/0x19001af36808e4c573a237bfc58ce282616f05b3#internaltx
+Called fallback with 0.1 ether to add to already contributer 1 eth from the same address:
+https://kovan.etherscan.io/tx/0x76b38e3211ad5ce465edce69faf0d69837b924e47f705ec16cf4e30fc163781e
 
-Called blacklist by owner with params: 0x0039f22efb07a647557c7c5d17854cfd6d489ef3
-https://kovan.etherscan.io/tx/0xe17dfeabd9bc2f7adc28ec3b83c4bf011e1864066c02ef689cbcbee4d9aeef51
+Cap tests:
+Deployed contract: https://kovan.etherscan.io/address/0x9acf295c782e14ac86b87a3545e444256a3a7e56#readContract
+"1510291574","1610291574","500000000000000000","100000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
+(cap 0.5 eth, min 0.1 eth)
 
-Called fallback by non-whitelisted investor (expected an error) with 0.3 ether:
-https://kovan.etherscan.io/tx/0x391c1e4d838876e38e4631279a3c9856cc08e5ecedd2a4d0fae6990e127af432
+Send 1 eth over cap(expected error):
+https://kovan.etherscan.io/tx/0xb0c4a7f64bd392fae8b174a1304d91691c1cb3acdec0d290fd3a734a725cbcaa
 
-Called whitelistInvestors with params: [
-    "0x62D9FB3358B4b83dB0280Eacc6a0fA5C6dDc7B4d","0xc15Ac3555FD6d6b569B9762D5289A3cc31325B1b"
-]
-https://kovan.etherscan.io/tx/0x048978a970e317e0117a5e342c875032a044ce65f8c1f35a3e18f7b4e29f25de
+Send 0.5 to match cap:
+https://kovan.etherscan.io/tx/0x5709e2ca2b4406a89c4ecedc2f1913b7ce9cdef66670b694851650a4fe037ae2
+
+Send additional 0.00001 to over cap(expected error):
+https://kovan.etherscan.io/tx/0x826229102f3a235c21173295434507a9664ad3f822edc1b9af488bdc3f01e32d
+
+Time tests:
+Send after sale ends(expected error):
+"1507667268","1507753668","500000000000000000","100000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
+https://kovan.etherscan.io/address/0xec1afb89f87cb0ac296cad6e73dbeeab5b006050#readContract
+
+Send 0.1 ether to get rejected:
+https://kovan.etherscan.io/tx/0xd859be5b5b58303a4cbc61902f8927efa9de96a3739ce39a18e1f6949a154c2b
+
