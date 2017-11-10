@@ -4,7 +4,7 @@ require('chai')
 .use(require('chai-as-promised'))
 .use(require('chai-bignumber')(web3.BigNumber))
 .should();
-
+const REVERT_MSG = 'VM Exception while processing transaction: revert';
 const moment = require('moment');
 
 const ETHER = new web3.BigNumber(10).toPower(18);
@@ -32,7 +32,7 @@ contract('Presale', function(accounts) {
     });
     it('can not buy if not initialized', async () => {
         await presaleContract.sendTransaction({amount: ETHER})
-        .should.be.rejectedWith('invalid opcode');
+        .should.be.rejectedWith(REVERT_MSG);
     })
 
     describe('#initilize', async () => {
@@ -43,7 +43,7 @@ contract('Presale', function(accounts) {
         })
         it('rejects if not sent by owner', async () => {
             await presaleContract.initialize(PRESALE_START_DATE, PRESALE_END_DATE, ETHER, accounts[1], {from: accounts[1]})
-                .should.be.rejectedWith('invalid opcode');
+                .should.be.rejectedWith(REVERT_MSG);
         })
         it('sets values', async () => {
             await presaleContract.initialize(PRESALE_START_DATE, PRESALE_END_DATE, ETHER, accounts[1], {from: accounts[0]})
@@ -67,32 +67,32 @@ contract('Presale', function(accounts) {
             // require(!isInitialized);
             await presaleContract.initialize(PRESALE_START_DATE, PRESALE_END_DATE, ETHER, accounts[1], {from: accounts[0]})
             await presaleContract.initialize(PRESALE_START_DATE, PRESALE_END_DATE, ETHER, accounts[1], {from: accounts[0]})
-                .should.be.rejectedWith('invalid opcode');
+                .should.be.rejectedWith(REVERT_MSG);
         })
         it('startTime cannot be 0', async () => {
             // require(_startTime != 0);
             await presaleContract.initialize(0, PRESALE_END_DATE, ETHER, accounts[1], {from: accounts[1]})
-            .should.be.rejectedWith('invalid opcode');
+            .should.be.rejectedWith(REVERT_MSG);
         })
         it('endTime cannot be 0', async () => {
             // require(_endTime != 0);
             await presaleContract.initialize(PRESALE_START_DATE, 0, ETHER, accounts[1], {from: accounts[1]})
-            .should.be.rejectedWith('invalid opcode');
+            .should.be.rejectedWith(REVERT_MSG);
         })
         it('endTime cannot be less than startTime', async () => {
             // require(_endTime > _startTime);
             await presaleContract.initialize(PRESALE_END_DATE, PRESALE_START_DATE, ETHER, accounts[1], {from: accounts[1]})
-            .should.be.rejectedWith('invalid opcode');
+            .should.be.rejectedWith(REVERT_MSG);
         })
         it('cap cannot be 0', async () => {
             // require(_cap != 0);
             await presaleContract.initialize(PRESALE_START_DATE, PRESALE_END_DATE, 0, accounts[1], {from: accounts[1]})
-            .should.be.rejectedWith('invalid opcode');
+            .should.be.rejectedWith(REVERT_MSG);
         })
         it('vault cannot be 0x0', async () => {
             // require(_vault != 0x0);
             await presaleContract.initialize(PRESALE_START_DATE, PRESALE_END_DATE, ETHER, '0x0', {from: accounts[1]})
-            .should.be.rejectedWith('invalid opcode');
+            .should.be.rejectedWith(REVERT_MSG);
         })
     })
 
@@ -106,20 +106,20 @@ contract('Presale', function(accounts) {
         it('cannot buy if not whitelisted', async () => {
             // require(whitelist[msg.sender]);
             await presaleContract.sendTransaction({amount: ETHER})
-            .should.be.rejectedWith('invalid opcode');
+            .should.be.rejectedWith(REVERT_MSG);
         })
         it('cannot buy if not value is 0', async () => {
             // require(msg.value > 0);
             await presaleContract.setTime(PRESALE_START_DATE);
             await presaleContract.whitelistInvestor(accounts[0]);
             await presaleContract.sendTransaction({value: 0})
-            .should.be.rejectedWith('invalid opcode');
+            .should.be.rejectedWith(REVERT_MSG);
         })
 
         it('can not buy if not initialized', async () => {
             // require(isInitialized);
             await presaleContract.sendTransaction({amount: ETHER})
-            .should.be.rejectedWith('invalid opcode');
+            .should.be.rejectedWith('VM Exception while processing transaction: revert');
         })
 
         it('can not buy if time is not within startTime&endTime', async ()=> {
@@ -127,10 +127,10 @@ contract('Presale', function(accounts) {
             await presaleContract.setTime(PRESALE_START_DATE - 1);
             await presaleContract.whitelistInvestor(accounts[0]);
             await presaleContract.sendTransaction({value: ETHER})
-            .should.be.rejectedWith('invalid opcode');
+            .should.be.rejectedWith(REVERT_MSG);
             await presaleContract.setTime(PRESALE_END_DATE + 1);
             await presaleContract.sendTransaction({value: ETHER})
-            .should.be.rejectedWith('invalid opcode');
+            .should.be.rejectedWith(REVERT_MSG);
         })
 
         it('can not buy more than cap', async () => {
@@ -138,7 +138,7 @@ contract('Presale', function(accounts) {
             await presaleContract.setTime(PRESALE_START_DATE);
             await presaleContract.whitelistInvestor(accounts[0]);
             await presaleContract.sendTransaction({value: ETHER.mul(2) + 1})
-            .should.be.rejectedWith('invalid opcode');
+            .should.be.rejectedWith(REVERT_MSG);
         })
 
         it('happy path', async () => {
@@ -176,7 +176,7 @@ contract('Presale', function(accounts) {
     describe('#whitelistInvestor', async ()=>{
         it('cannot by called by non-owner', async ()=> {
             await presaleContract.whitelistInvestor(accounts[0], {from: accounts[1]})
-                .should.be.rejectedWith('invalid opcode');
+                .should.be.rejectedWith(REVERT_MSG);
         })
         it('whitelists an investor', async ()=> {
             '0'.should.be.bignumber.equal(
@@ -197,7 +197,7 @@ contract('Presale', function(accounts) {
     describe('#whitelistInvestors', async ()=>{
         it('cannot by called by non-owner', async ()=> {
             await presaleContract.whitelistInvestors([accounts[0]], {from: accounts[1]})
-                .should.be.rejectedWith('invalid opcode');
+                .should.be.rejectedWith(REVERT_MSG);
         })
         it('whitelists investors', async ()=> {
             '0'.should.be.bignumber.equal(
@@ -218,7 +218,7 @@ contract('Presale', function(accounts) {
     describe('#blacklistInvestor', async ()=>{
         it('cannot by called by non-owner', async ()=> {
             await presaleContract.blacklistInvestor(accounts[0], {from: accounts[1]})
-                .should.be.rejectedWith('invalid opcode');
+                .should.be.rejectedWith(REVERT_MSG);
         })
         it('blacklist an investors', async ()=> {
             '0'.should.be.bignumber.equal(
