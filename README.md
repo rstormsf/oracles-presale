@@ -23,36 +23,35 @@ To use:
     
 Example: 
 
-    "1510291574","1610291574","100000000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
+    "1510291574","1610291574","100000000000000000000","100000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
 
     startTime: `Friday, November 10, 2017 5:26:14 AM `
     endTime: `Sunday, January 10, 2021 3:12:54 PM `
     cap: `100 eth `
+    minimum: `0.1 eth `
     vault: `0x0039f22efb07a647557c7c5d17854cfd6d489ef3`
-4. Whitelist investors by calling `whitelistInvestors` with array of addresses. Example:
-["0x62D9FB3358B4b83dB0280Eacc6a0fA5C6dDc7B4d","0xc15Ac3555FD6d6b569B9762D5289A3cc31325B1b"]
-5. Let whitelisted investors send money to contract's address
+4. Let investors send money to contract's address OR to send to `buy` method (`0xa6f2ae3a`)
 
-
+```
 Contract: Presale
-    <span style="color:green">✓</span> constructor should set owner
-    <span style="color:green">✓</span> can not buy if not initialized <span style="color:green">(22623 gas)</span>
+    ✓ constructor should set owner
+    ✓ can not buy if not initialized (22623 gas)
     #initilize
-      <span style="color:green">✓</span> rejects if not sent by owner <span style="color:green">(25358 gas)</span>
-      <span style="color:green">✓</span> sets values <span style="color:green">(131519 gas)</span>
-      <span style="color:green">✓</span> cannot initialize twice <span style="color:green">(157189 gas)</span>
-      <span style="color:green">✓</span> startTime cannot be 0 <span style="color:green">(25102 gas)</span>
-      <span style="color:green">✓</span> endTime cannot be 0 <span style="color:green">(25166 gas)</span>
-      <span style="color:green">✓</span> endTime cannot be less than startTime <span style="color:green">(25358 gas)</span>
-      <span style="color:green">✓</span> cap cannot be 0 <span style="color:green">(24910 gas)</span>
-      <span style="color:green">✓</span> vault cannot be 0x0 <span style="color:green">(24078 gas)</span>
-      <span style="color:green">✓</span> minimumContribution cannot be 0 <span style="color:green">(24910 gas)</span>
+      ✓ rejects if not sent by owner (25358 gas)
+      ✓ sets values (131519 gas)
+      ✓ cannot initialize twice (157189 gas)
+      ✓ startTime cannot be 0 (25102 gas)
+      ✓ endTime cannot be 0 (25166 gas)
+      ✓ endTime cannot be less than startTime (25358 gas)
+      ✓ cap cannot be 0 (24910 gas)
+      ✓ vault cannot be 0x0 (24078 gas)
+      ✓ minimumContribution cannot be 0 (24910 gas)
     #buy
-      <span style="color:green">✓</span> cannot buy if not value is 0 <span style="color:green">(64231 gas)</span>
-      <span style="color:green">✓</span> cannot buy if not value is less than minimum <span style="color:green">(64231 gas)</span>
-      <span style="color:green">✓</span> can not buy if time is not within startTime&endTime <span style="color:green">(116233 gas)</span>
-      <span style="color:green">✓</span> can not buy more than cap <span style="color:green">(64236 gas)</span>
-      <span style="color:green">✓</span> happy path <span style="color:green">(178974 gas)</span>
+      ✓ cannot buy if not value is 0 (64231 gas)
+      ✓ cannot buy if not value is less than minimum (64231 gas)
+      ✓ can not buy if time is not within startTime&endTime (116233 gas)
+      ✓ can not buy more than cap (64236 gas)
+      ✓ happy path (178974 gas)
 
 ·-----------------------------------------------------------------------|-----------------------------------·
 │                                  Gas                                  ·  Block limit: 17592186044415 gas  │
@@ -72,21 +71,46 @@ Contract: Presale
 │  PresaleOracles  ·  transferOwnership  ·      -  ·       -  ·      -  ·             0  ·               -  │
 ·------------------|---------------------|---------|----------|---------|----------------|------------------·
 
-  <span style="color:green">16 passing (2m)</span>
-
+  16 passing (2m)
+```
 # Testnet deployment
 
-Contract Deployment: https://kovan.etherscan.io/address/0x5a79f8aaae55924117d55d72338c4a4b9d1b5315#readContract
+Contract Deployment: https://kovan.etherscan.io/address/0xb9b49e21e77d2d89a9e4c7ef4f684ad2a4e99663#code
 
 Called Initialize by Owner with params: 
 "1510291574","1610291574","40000000000000000000000","1000000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
 (40000 eth cap, 1 eth minimum)
-https://kovan.etherscan.io/tx/0x2ac165c7efafc093019c113534f6745bc2a5df911ba53d121c33c55d681b3fb6
+https://kovan.etherscan.io/tx/0xc95047493d8eead08c3bef52c54cc2ffcbd2e0ef89c1ba1a719d28bd98011c84
 
 Called fallback with 0.5 ether: (expected error)
-https://kovan.etherscan.io/tx/0x84abaa77a9f8b42799c00348a4d439db0af9b67ab45d252e7885b768e7ca9930
+https://kovan.etherscan.io/tx/0x6f7335f55257a56f9382d47dfeacf26e482f3c6238e829dfbc5e143d6972f0e0
 
-Called buy with 1 ether:
-https://kovan.etherscan.io/tx/0xdc32fa666a60fe8aa590d8fc7538b9e70852a2ae62750b7c0687d46e263d18ac
+Called buy(`0xa6f2ae3a`) with 1 ether:
+https://kovan.etherscan.io/tx/0xdbf29ed04dcb1a71e90f3a404739b6e3bb2c526b7788547ad9dc66e5eb64c79f
 Verified forwarded funds as internal transaction.
+
+Called fallback with 0.1 ether to add to already contributer 1 eth from the same address:
+https://kovan.etherscan.io/tx/0x76b38e3211ad5ce465edce69faf0d69837b924e47f705ec16cf4e30fc163781e
+
+Cap tests:
+Deployed contract: https://kovan.etherscan.io/address/0x9acf295c782e14ac86b87a3545e444256a3a7e56#readContract
+"1510291574","1610291574","500000000000000000","100000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
+(cap 0.5 eth, min 0.1 eth)
+
+Send 1 eth over cap(expected error):
+https://kovan.etherscan.io/tx/0xb0c4a7f64bd392fae8b174a1304d91691c1cb3acdec0d290fd3a734a725cbcaa
+
+Send 0.5 to match cap:
+https://kovan.etherscan.io/tx/0x5709e2ca2b4406a89c4ecedc2f1913b7ce9cdef66670b694851650a4fe037ae2
+
+Send additional 0.00001 to over cap(expected error):
+https://kovan.etherscan.io/tx/0x826229102f3a235c21173295434507a9664ad3f822edc1b9af488bdc3f01e32d
+
+Time tests:
+Send after sale ends(expected error):
+"1507667268","1507753668","500000000000000000","100000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
+https://kovan.etherscan.io/address/0xec1afb89f87cb0ac296cad6e73dbeeab5b006050#readContract
+
+Send 0.1 ether to get rejected:
+https://kovan.etherscan.io/tx/0xd859be5b5b58303a4cbc61902f8927efa9de96a3739ce39a18e1f6949a154c2b
 
