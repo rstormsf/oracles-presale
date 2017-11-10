@@ -19,9 +19,9 @@
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
+    "eth-gas-reporter": "0.0.12",
     "ethereumjs-testrpc": "^6.0.1",
     "mochawesome": "^2.3.1",
     "solidity-coverage": "^0.4.0"
   }
-  
 }
