@@ -115,6 +115,8 @@ contract PresaleOracles is Ownable {
     uint256 public totalInvestedInWei;
     uint256 public minimumContribution;
     mapping(address => uint256) public investorBalances;
+    mapping(address => bool) public whitelist;
+    uint256 public investorsLength;
     address public vault;
     bool public isInitialized = false;
     // TESTED by Roman Storm
@@ -143,6 +145,7 @@ contract PresaleOracles is Ownable {
     }
     //TESTED by Roman Storm
     function buy() public payable {
+        require(whitelist[msg.sender]);
         require(isValidPurchase(msg.value));
         require(isInitialized);
         require(getTime() >= startTime && getTime() <= endTime);
@@ -177,6 +180,32 @@ contract PresaleOracles is Ownable {
         bool hasMinimumAmount = investorBalances[msg.sender].add(_amount) >= minimumContribution;
         bool withinCap = totalInvestedInWei.add(_amount) <= cap;
         return hasMinimumAmount && withinCap && nonZero;
+    }
+    //TESTED by Roman Storm
+    function whitelistInvestor(address _newInvestor) public onlyOwner {
+        if(!whitelist[_newInvestor]) {
+            whitelist[_newInvestor] = true;
+            investorsLength++;
+        }
+    }
+    //TESTED by Roman Storm
+    function whitelistInvestors(address[] _investors) external onlyOwner {
+        require(_investors.length <= 250);
+        for(uint8 i=0; i<_investors.length;i++) {
+            address newInvestor = _investors[i];
+            if(!whitelist[newInvestor]) {
+                whitelist[newInvestor] = true;
+                investorsLength++;
+            }
+        }
+    }
+    function blacklistInvestor(address _investor) public onlyOwner {
+        if(whitelist[_investor]) {
+            delete whitelist[_investor];
+            if(investorsLength != 0) {
+                investorsLength--;
+            }
+        }
     }
 }
 

@@ -112,6 +112,11 @@ contract('Presale', function(accounts) {
             PRESALE_END_DATE = moment('2017-12-18T16:00:00Z').unix();
             await presaleContract.initialize(PRESALE_START_DATE, PRESALE_END_DATE, ETHER.mul(40000), ETHER.mul(100), accounts[1], {from: accounts[0]})
         })
+        it('cannot buy if not whitelisted', async () => {
+            // require(whitelist[msg.sender]);
+            await presaleContract.sendTransaction({amount: ETHER})
+            .should.be.rejectedWith(REVERT_MSG);
+        })
         it('cannot buy if not value is 0', async () => {
             // require(msg.value > 0);
             await presaleContract.setTime(PRESALE_START_DATE);
@@ -150,6 +155,7 @@ contract('Presale', function(accounts) {
             const vault = accounts[1];
             const preVaultBalance = await web3.eth.getBalance(vault);
             await presaleContract.setTime(PRESALE_START_DATE);
+            await presaleContract.whitelistInvestor(accounts[0]);            
             await presaleContract.sendTransaction({value: ETHER.mul(100)});
             ETHER.mul(100).should.be.bignumber.equal(
                 await presaleContract.investorBalances(accounts[0])
@@ -174,6 +180,79 @@ contract('Presale', function(accounts) {
 
             await presaleContract.sendTransaction({value: ETHER.mul(40000-100-2).add(1)})
             .should.be.rejectedWith(REVERT_MSG);
+        })
+    })
+
+    describe('whitelisting capabilities', async ()=> {
+        describe('#whitelistInvestor', async ()=>{
+            it('cannot by called by non-owner', async ()=> {
+                await presaleContract.whitelistInvestor(accounts[0], {from: accounts[1]})
+                    .should.be.rejectedWith(REVERT_MSG);
+            })
+            it('whitelists an investor', async ()=> {
+                '0'.should.be.bignumber.equal(
+                    await presaleContract.investorsLength()
+                )
+                false.should.be.equal(
+                    await presaleContract.whitelist(accounts[0])
+                )
+                await presaleContract.whitelistInvestor(accounts[0]);
+                true.should.be.equal(
+                    await presaleContract.whitelist(accounts[0])
+                )
+                '1'.should.be.bignumber.equal(
+                    await presaleContract.investorsLength()
+                )
+            })
+        })
+        describe('#whitelistInvestors', async ()=>{
+            it('cannot by called by non-owner', async ()=> {
+                await presaleContract.whitelistInvestors([accounts[0]], {from: accounts[1]})
+                    .should.be.rejectedWith(REVERT_MSG);
+            })
+            it('whitelists investors', async ()=> {
+                '0'.should.be.bignumber.equal(
+                    await presaleContract.investorsLength()
+                )
+                false.should.be.equal(
+                    await presaleContract.whitelist(accounts[0])
+                )
+                await presaleContract.whitelistInvestors([accounts[0], accounts[1], accounts[2]]);
+                true.should.be.equal(
+                    await presaleContract.whitelist(accounts[2])
+                )
+                '3'.should.be.bignumber.equal(
+                    await presaleContract.investorsLength()
+                )
+            })
+        })
+        describe('#blacklistInvestor', async ()=>{
+            it('cannot by called by non-owner', async ()=> {
+                await presaleContract.blacklistInvestor(accounts[0], {from: accounts[1]})
+                    .should.be.rejectedWith(REVERT_MSG);
+            })
+            it('blacklist an investors', async ()=> {
+                '0'.should.be.bignumber.equal(
+                    await presaleContract.investorsLength()
+                )
+                false.should.be.equal(
+                    await presaleContract.whitelist(accounts[0])
+                )
+                await presaleContract.whitelistInvestors([accounts[0], accounts[1], accounts[2]]);
+                true.should.be.equal(
+                    await presaleContract.whitelist(accounts[0])
+                )
+                '3'.should.be.bignumber.equal(
+                    await presaleContract.investorsLength()
+                )
+                await presaleContract.blacklistInvestor(accounts[0]);
+                false.should.be.equal(
+                    await presaleContract.whitelist(accounts[0])
+                )
+                '2'.should.be.bignumber.equal(
+                    await presaleContract.investorsLength()
+                )
+            })
         })
     })
 

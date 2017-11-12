@@ -27,56 +27,98 @@ solidity_flattener --solc-paths=zeppelin-solidity=$(pwd)/node_modules/zeppelin-s
 Example: 
 
     "1510291574","1610291574","100000000000000000000","100000000000000000","0x0039f22efb07a647557c7c5d17854cfd6d489ef3"
-
     startTime: `Friday, November 10, 2017 5:26:14 AM `
     endTime: `Sunday, January 10, 2021 3:12:54 PM `
     cap: `100 eth `
     minimum: `0.1 eth `
     vault: `0x0039f22efb07a647557c7c5d17854cfd6d489ef3`
-4. Let investors send money to contract's address OR to send to `buy` method (`0xa6f2ae3a`)
+4. Whitelist investors by calling `whitelistInvestors` with an array ['0x0039f22efb07a647557c7c5d17854cfd6d489ef3']
+5. Let whitelisted investors send money to contract's address OR to send to `buy` method (`0xa6f2ae3a`)
 
+# How to whitelist a lot of addresses in batch
+1. `cd scripts`
+2. `npm install`
+3. open `.env` file and modify settings:
 ```
-Contract: Presale
+PRESALE_ADDRESS=0x6F3f79941f89E03D4aF9bDb8BE0623DC24F2bef0
+UNLOCKED_ADDRESS=0x0039f22efb07a647557c7c5d17854cfd6d489ef3
+RPC_PORT=8549
+GAS_PRICE=0.7
+```
+4. run parity with unlocked account from which the deployment will happen. It has to match with your .env UNLOCKED_ADDRESS:
+```
+parity --jsonrpc-port 8549 --chain kovan --unlock 0x0039F22efB07A647557C7C5d17854CFD6D489eF3 --password $HOME/FILE_PATH_TO_YOUR_PASSWORD_FILE
+```
+4. run `node whitelist.js`
+
+# Test result and gas usage
+```
+
+  Contract: Presale
     ✓ constructor should set owner
-    ✓ can not buy if not initialized (22623 gas)
+    ✓ can not buy if not initialized (21411 gas)
     #initilize
-      ✓ rejects if not sent by owner (25358 gas)
-      ✓ sets values (131519 gas)
-      ✓ cannot initialize twice (157189 gas)
-      ✓ startTime cannot be 0 (25102 gas)
-      ✓ endTime cannot be 0 (25166 gas)
-      ✓ endTime cannot be less than startTime (25358 gas)
-      ✓ cap cannot be 0 (24910 gas)
-      ✓ vault cannot be 0x0 (24078 gas)
-      ✓ minimumContribution cannot be 0 (24910 gas)
+      ✓ rejects if not sent by owner (25424 gas)
+      ✓ sets values (131614 gas)
+      ✓ cannot initialize twice (157350 gas)
+      ✓ startTime cannot be 0 (25168 gas)
+      ✓ endTime cannot be 0 (25232 gas)
+      ✓ endTime cannot be less than startTime (25424 gas)
+      ✓ cap cannot be 0 (24976 gas)
+      ✓ vault cannot be 0x0 (24144 gas)
+      ✓ minimumContribution cannot be 0 (24976 gas)
     #buy
-      ✓ cannot buy if not value is 0 (64231 gas)
-      ✓ cannot buy if not value is less than minimum (64231 gas)
-      ✓ can not buy if time is not within startTime&endTime (116233 gas)
-      ✓ can not buy more than cap (64236 gas)
-      ✓ happy path (178974 gas)
+      ✓ cannot buy if not whitelisted (21411 gas)
+      ✓ cannot buy if not value is 0 (63333 gas)
+      ✓ cannot buy if not value is less than minimum (63333 gas)
+      ✓ can not buy if time is not within startTime&endTime (111666 gas)
+      ✓ can not buy more than cap (63333 gas)
+      ✓ happy path (244544 gas)
+    whitelisting capabilities
+      #whitelistInvestor
+        ✓ cannot by called by non-owner (23450 gas)
+        ✓ whitelists an investor (64399 gas)
+      #whitelistInvestors
+        ✓ cannot by called by non-owner (23666 gas)
+        ✓ whitelists investors (119844 gas)
+      #blacklistInvestor
+        ✓ cannot by called by non-owner (23582 gas)
+        ✓ blacklist an investors (139579 gas)
 
-·-----------------------------------------------------------------------|-----------------------------------·
-│                                  Gas                                  ·  Block limit: 17592186044415 gas  │
-·········································|······························|····································
-│  Methods                               ·          1 gwei/gas          ·          297.51 usd/eth           │
-···················|·····················|·········|··········|·········|················|···················
-│  Contract        ·  Method             ·  Min    ·  Max     ·  Avg    ·  # calls       ·  usd (avg)       │
-···················|·····················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  buy                ·      -  ·       -  ·      -  ·             0  ·               -  │
-···················|·····················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  claimTokens        ·      -  ·       -  ·      -  ·             0  ·               -  │
-···················|·····················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  initialize         ·  24078  ·  131519  ·  46359  ·            10  ·            0.01  │
-···················|·····················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  Presale            ·      -  ·       -  ·      -  ·             0  ·               -  │
-···················|·····················|·········|··········|·········|················|···················
-│  PresaleOracles  ·  transferOwnership  ·      -  ·       -  ·      -  ·             0  ·               -  │
-·------------------|---------------------|---------|----------|---------|----------------|------------------·
+·------------------------------------------------------------------------|-----------------------------------·
+│                                  Gas                                   ·  Block limit: 17592186044415 gas  │
+··········································|······························|····································
+│  Methods                                ·          1 gwei/gas          ·          307.55 usd/eth           │
+···················|······················|·········|··········|·········|················|···················
+│  Contract        ·  Method              ·  Min    ·  Max     ·  Avg    ·  # calls       ·  usd (avg)       │
+···················|······················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  blacklistInvestor   ·  19735  ·   23582  ·  21659  ·             2  ·            0.01  │
+···················|······················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  buy                 ·      -  ·       -  ·      -  ·             0  ·               -  │
+···················|······················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  claimTokens         ·      -  ·       -  ·      -  ·             0  ·               -  │
+···················|······················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  initialize          ·  24144  ·  131614  ·  46431  ·            10  ·            0.01  │
+···················|······················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  Presale             ·      -  ·       -  ·      -  ·             0  ·               -  │
+···················|······················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  transferOwnership   ·      -  ·       -  ·      -  ·             0  ·               -  │
+···················|······················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  whitelistInvestor   ·  23450  ·   64399  ·  50749  ·             3  ·            0.02  │
+···················|······················|·········|··········|·········|················|···················
+│  PresaleOracles  ·  whitelistInvestors  ·  23666  ·  119844  ·  87785  ·             3  ·            0.03  │
+·------------------|----------------------|---------|----------|---------|----------------|------------------·
 
-  16 passing (2m)
+  23 passing (3m)
 ```
 # Testnet deployment
+
+=====
+## Latest Contract deployment
+https://kovan.etherscan.io/address/0x6f3f79941f89e03d4af9bdb8be0623dc24f2bef0
+=====
+
+## Previous deployments with old source code:
 
 Contract Deployment: https://kovan.etherscan.io/address/0xb9b49e21e77d2d89a9e4c7ef4f684ad2a4e99663#code
 
@@ -116,4 +158,3 @@ https://kovan.etherscan.io/address/0xec1afb89f87cb0ac296cad6e73dbeeab5b006050#re
 
 Send 0.1 ether to get rejected:
 https://kovan.etherscan.io/tx/0xd859be5b5b58303a4cbc61902f8927efa9de96a3739ce39a18e1f6949a154c2b
-
