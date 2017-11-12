@@ -1,0 +1,13 @@
+IPCFILE=ipc:./testchain/geth.ipc
+PASSWORD=testtest
+
+CONTRACTSDIR=../../flat
+
+SALESOL=PresaleOracles_flat.sol
+SALEJS=PresaleOracles_flat.js
+
+DEPLOYMENTDATA=deploymentData.txt
+
+INCLUDEJS=./include.js
+TEST1OUTPUT=test1output.txt
+TEST1RESULTS=test1results.txt
