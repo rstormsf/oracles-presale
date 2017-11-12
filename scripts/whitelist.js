@@ -15,6 +15,7 @@ filterAddresses(ARRAY_OF_ADDRESSES).then(async (toWhitelist) => {
     console.log(toWhitelist.length);
     const addPerTx = 160;
     const slices = Math.ceil(toWhitelist.length / addPerTx);
+    console.log(`THIS SCRIPT WILL GENERATE ${slices} transactions`);
     var txcount = await web3.eth.getTransactionCount(UNLOCKED_ADDRESS);
     const nonce = web3.utils.toHex(txcount);
     console.log('STARTED', nonce);

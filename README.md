@@ -50,7 +50,14 @@ GAS_PRICE=0.7
 parity --jsonrpc-port 8549 --chain kovan --unlock 0x0039F22efB07A647557C7C5d17854CFD6D489eF3 --password $HOME/FILE_PATH_TO_YOUR_PASSWORD_FILE
 ```
 5. Copy list of addresses into [scripts/ARRAY_OF_ADDRESSES.json](scripts/ARRAY_OF_ADDRESSES.json)
-5. run `node whitelist.js`
+6. run `node whitelist.js`
+The script will show you how many total transactions will be generated
+Caution:
+If you see this error:
+```diff
+- Unhandled rejection Error: Transaction was not mined within 50 blocks, please make sure your transaction was properly send. Be aware that it might still be mined!
+```
+it's totally ok because the transaction is still in the queue and hasn't been mined yet.
 
 # Test result and gas usage
 ```
