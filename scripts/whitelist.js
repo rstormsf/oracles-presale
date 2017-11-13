@@ -1,5 +1,6 @@
 require('dotenv').config();
-const ARRAY_OF_ADDRESSES = require('./ARRAY_OF_ADDRESSES.json');
+let ARRAY_OF_ADDRESSES = require('./ARRAY_OF_ADDRESSES.json');
+ARRAY_OF_ADDRESSES = Array.from(new Set(ARRAY_OF_ADDRESSES));
 const RPC_PORT = process.env.RPC_PORT;
 const PRESALE_ADDRESS = process.env.PRESALE_ADDRESS;
 const UNLOCKED_ADDRESS = process.env.UNLOCKED_ADDRESS;
@@ -10,18 +11,8 @@ const provider = new Web3.providers.HttpProvider(`http://localhost:${RPC_PORT}`)
 const web3 = new Web3(provider);
 
 const { filterAddresses, setup } = require('./filterAddresses');
-setup({ web3Param: web3, contribAddress: PRESALE_ADDRESS});
-filterAddresses(ARRAY_OF_ADDRESSES).then(async (toWhitelist) => {
-    console.log(toWhitelist.length);
-    const addPerTx = 160;
-    const slices = Math.ceil(toWhitelist.length / addPerTx);
-    console.log(`THIS SCRIPT WILL GENERATE ${slices} transactions`);
-    var txcount = await web3.eth.getTransactionCount(UNLOCKED_ADDRESS);
-    const nonce = web3.utils.toHex(txcount);
-    console.log('STARTED', nonce);
-    return sendTransactionToContribution({array: toWhitelist, slice: slices, addPerTx, nonce});
-}).then(console.log).catch(console.error);
 
+setup({ web3Param: web3, contribAddress: PRESALE_ADDRESS});
 const GAS_PRICE = web3.utils.toWei(process.env.GAS_PRICE, 'gwei');
 const GAS_LIMIT = '6700000';
 const myContract = new web3.eth.Contract(ICO_ABI, PRESALE_ADDRESS, {
@@ -30,6 +21,20 @@ const myContract = new web3.eth.Contract(ICO_ABI, PRESALE_ADDRESS, {
     gas: GAS_LIMIT // default gas price in wei
 });
 
+filterAddresses(ARRAY_OF_ADDRESSES).then(async (toWhitelist) => {
+    let currentInvestors = await myContract.methods.investorsLength().call();
+    currentInvestors = Number(currentInvestors.toString(10));
+    console.log('current whitelisted investors: ', currentInvestors);
+    console.log('to whitelist', toWhitelist.length);
+    console.log('Expected total whitelisted count after execution', toWhitelist.length + currentInvestors);
+    const addPerTx = 160;
+    const slices = Math.ceil(toWhitelist.length / addPerTx);
+    console.log(`THIS SCRIPT WILL GENERATE ${slices} transactions`);
+    var txcount = await web3.eth.getTransactionCount(UNLOCKED_ADDRESS);
+    const nonce = web3.utils.toHex(txcount);
+    console.log('STARTED', nonce);
+    return sendTransactionToContribution({array: toWhitelist, slice: slices, addPerTx, nonce});
+}).then(console.log).catch(console.error);
 
 async function sendTransactionToContribution({array, slice, addPerTx, nonce}) {
     if(array.length === 0){
@@ -58,7 +63,7 @@ async function sendTransactionToContribution({array, slice, addPerTx, nonce}) {
                 sendTransactionToContribution({array, slice, addPerTx, nonce});
             } else {
                 res({ result: 'completed' });
-                // process.exit();
+                process.exit();
             }
 
         });
