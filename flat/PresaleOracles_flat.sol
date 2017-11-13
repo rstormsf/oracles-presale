@@ -63,6 +63,35 @@ contract Ownable {
 
 }
 
+contract Claimable is Ownable {
+  address public pendingOwner;
+
+  /**
+   * @dev Modifier throws if called by any account other than the pendingOwner.
+   */
+  modifier onlyPendingOwner() {
+    require(msg.sender == pendingOwner);
+    _;
+  }
+
+  /**
+   * @dev Allows the current owner to set the pendingOwner address.
+   * @param newOwner The address to transfer ownership to.
+   */
+  function transferOwnership(address newOwner) onlyOwner public {
+    pendingOwner = newOwner;
+  }
+
+  /**
+   * @dev Allows the pendingOwner address to finalize the transfer.
+   */
+  function claimOwnership() onlyPendingOwner public {
+    OwnershipTransferred(owner, pendingOwner);
+    owner = pendingOwner;
+    pendingOwner = 0x0;
+  }
+}
+
 contract ERC20Basic {
   uint256 public totalSupply;
   function balanceOf(address who) public constant returns (uint256);
@@ -101,7 +130,7 @@ contract BasicToken is ERC20Basic {
 
 }
 
-contract PresaleOracles is Ownable {
+contract PresaleOracles is Claimable {
 /*
  * PresaleOracles
  * Simple Presale contract

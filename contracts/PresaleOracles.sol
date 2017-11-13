@@ -1,10 +1,10 @@
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/token/BasicToken.sol";
-import "zeppelin-solidity/contracts/ownership/Ownable.sol";
+import "zeppelin-solidity/contracts/ownership/Claimable.sol";
 
 pragma solidity ^0.4.17;
 
-contract PresaleOracles is Ownable {
+contract PresaleOracles is Claimable {
 /*
  * PresaleOracles
  * Simple Presale contract

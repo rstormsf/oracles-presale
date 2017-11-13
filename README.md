@@ -123,11 +123,13 @@ it's totally ok because the transaction is still in the queue and hasn't been mi
 ```
 # Testnet deployment
 
-## Latest Contract deployment
-https://kovan.etherscan.io/address/0x6f3f79941f89e03d4af9bdb8be0623dc24f2bef0
-
+## Latest Contract deployments
+With Claimable:
+https://kovan.etherscan.io/address/0x985dbb1c5dda22ff9d529abc1c3539bc525943f4#code
 
 ## Previous deployments with old source code:
+
+https://kovan.etherscan.io/address/0x6f3f79941f89e03d4af9bdb8be0623dc24f2bef0
 
 Contract Deployment: https://kovan.etherscan.io/address/0xb9b49e21e77d2d89a9e4c7ef4f684ad2a4e99663#code
 
