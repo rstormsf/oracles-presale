@@ -1,10 +1,10 @@
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
-import "zeppelin-solidity/contracts/token/BasicToken.sol";
-import "zeppelin-solidity/contracts/ownership/Ownable.sol";
+import "zeppelin-solidity/contracts/token/ERC20Basic.sol";
+import "zeppelin-solidity/contracts/ownership/Claimable.sol";
 
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.18;
 
-contract PresaleOracles is Ownable {
+contract PresaleOracles is Claimable {
 /*
  * PresaleOracles
  * Simple Presale contract
@@ -14,7 +14,6 @@ contract PresaleOracles is Ownable {
     uint256 public startTime;
     uint256 public endTime;
     uint256 public cap;
-    uint256 public rate;
     uint256 public totalInvestedInWei;
     uint256 public minimumContribution;
     mapping(address => uint256) public investorBalances;
@@ -47,6 +46,7 @@ contract PresaleOracles is Ownable {
         vault = _vault;
     }
     //TESTED by Roman Storm
+    event Contribution(address indexed investor, uint256 investorAmount, uint256 investorTotal, uint256 totalAmount);
     function buy() public payable {
         require(whitelist[msg.sender]);
         require(isValidPurchase(msg.value));
@@ -56,6 +56,7 @@ contract PresaleOracles is Ownable {
         investorBalances[investor] += msg.value;
         totalInvestedInWei += msg.value;
         forwardFunds(msg.value);
+        Contribution(msg.sender, msg.value, investorBalances[investor], totalInvestedInWei);
     }
     
     //TESTED by Roman Storm
@@ -69,7 +70,7 @@ contract PresaleOracles is Ownable {
             return;
         }
     
-        BasicToken token = BasicToken(_token);
+        ERC20Basic token = ERC20Basic(_token);
         uint256 balance = token.balanceOf(this);
         token.transfer(owner, balance);
     }
