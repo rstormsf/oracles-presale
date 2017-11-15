@@ -99,37 +99,6 @@ contract ERC20Basic {
   event Transfer(address indexed from, address indexed to, uint256 value);
 }
 
-contract BasicToken is ERC20Basic {
-  using SafeMath for uint256;
-
-  mapping(address => uint256) balances;
-
-  /**
-  * @dev transfer token for a specified address
-  * @param _to The address to transfer to.
-  * @param _value The amount to be transferred.
-  */
-  function transfer(address _to, uint256 _value) public returns (bool) {
-    require(_to != address(0));
-
-    // SafeMath.sub will throw if there is not enough balance.
-    balances[msg.sender] = balances[msg.sender].sub(_value);
-    balances[_to] = balances[_to].add(_value);
-    Transfer(msg.sender, _to, _value);
-    return true;
-  }
-
-  /**
-  * @dev Gets the balance of the specified address.
-  * @param _owner The address to query the the balance of.
-  * @return An uint256 representing the amount owned by the passed address.
-  */
-  function balanceOf(address _owner) public constant returns (uint256 balance) {
-    return balances[_owner];
-  }
-
-}
-
 contract PresaleOracles is Claimable {
 /*
  * PresaleOracles
@@ -140,7 +109,6 @@ contract PresaleOracles is Claimable {
     uint256 public startTime;
     uint256 public endTime;
     uint256 public cap;
-    uint256 public rate;
     uint256 public totalInvestedInWei;
     uint256 public minimumContribution;
     mapping(address => uint256) public investorBalances;
@@ -173,6 +141,7 @@ contract PresaleOracles is Claimable {
         vault = _vault;
     }
     //TESTED by Roman Storm
+    event Contribution(address indexed investor, uint256 investorAmount, uint256 investorTotal, uint256 totalAmount);
     function buy() public payable {
         require(whitelist[msg.sender]);
         require(isValidPurchase(msg.value));
@@ -182,6 +151,7 @@ contract PresaleOracles is Claimable {
         investorBalances[investor] += msg.value;
         totalInvestedInWei += msg.value;
         forwardFunds(msg.value);
+        Contribution(msg.sender, msg.value, investorBalances[investor], totalInvestedInWei);
     }
     
     //TESTED by Roman Storm
@@ -195,7 +165,7 @@ contract PresaleOracles is Claimable {
             return;
         }
     
-        BasicToken token = BasicToken(_token);
+        ERC20Basic token = ERC20Basic(_token);
         uint256 balance = token.balanceOf(this);
         token.transfer(owner, balance);
     }
