@@ -1,0 +1,213 @@
+ # Account                                             EtherBalanceChange                          Token Name
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e        9.000000000000000000           0.000000000000000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433        0.000000000000000000           0.000000000000000000 Account #1 - Contract Owner
+ 2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.000000000000000000 Account #2 - Multisig
+ 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+ 4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+ 5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+ 6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+ 7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+                                                                                    0.000000000000000000 Total Token Balances
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+
+
+Deploy Presale Contract
+saleAddress=0x27daa9fe81944d721dc95e09f54c8bd3a90a5603 status=0x1 Success gas=4000000 gasUsed=757113 costETH=0.013628034 costUSD=2.799906841368 @ ETH/USD=205.452 gasPrice=18 gwei block=2133 txIx=0 txId=0x063fb179de23d9230534d59fd7f0a47631c7df13a7571f84ebba8eb80b2cac01 @ 1510716144 Wed, 15 Nov 2017 03:22:24 UTC
+ # Account                                             EtherBalanceChange                          Token Name
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       15.013628034000000000           0.000000000000000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.013628034000000000           0.000000000000000000 Account #1 - Contract Owner
+ 2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.000000000000000000 Account #2 - Multisig
+ 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+ 4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+ 5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+ 6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+ 7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+ 8 0x27daa9fe81944d721dc95e09f54c8bd3a90a5603        0.000000000000000000           0.000000000000000000 Presale
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+                                                                                    0.000000000000000000 Total Token Balances
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+
+PASS Deploy Presale Contract
+presaleContractAddress=0x27daa9fe81944d721dc95e09f54c8bd3a90a5603
+presale.owner=0xa11aae29840fbb5c86e6fd4cf809eba183aef433
+presale.startTime=0 Thu, 01 Jan 1970 00:00:00 UTC
+presale.endTime=0 Thu, 01 Jan 1970 00:00:00 UTC
+presale.cap=0 0
+presale.rate=0
+presale.totalInvestedInWei=0 0
+presale.minimumContribution=0 0
+presale.investorsLength=0
+presale.vault=0x0000000000000000000000000000000000000000
+presale.isInitialized=false
+
+Initialise Contribution
+initialiseSaleTx status=0x1 Success gas=2000000 gasUsed=125772 costETH=0.002263896 costUSD=0.465121960992 @ ETH/USD=205.452 gasPrice=18 gwei block=2135 txIx=0 txId=0x2ec5170349e14c56ec7e71fc30b3b99deae5cb898d1ed13f5cf4bde82c083bc4 @ 1510716150 Wed, 15 Nov 2017 03:22:30 UTC
+ # Account                                             EtherBalanceChange                          Token Name
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       21.015891930000000000           0.000000000000000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.015891930000000000           0.000000000000000000 Account #1 - Contract Owner
+ 2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.000000000000000000 Account #2 - Multisig
+ 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+ 4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+ 5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+ 6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+ 7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+ 8 0x27daa9fe81944d721dc95e09f54c8bd3a90a5603        0.000000000000000000           0.000000000000000000 Presale
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+                                                                                    0.000000000000000000 Total Token Balances
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+
+PASS Initialise Contribution
+presaleContractAddress=0x27daa9fe81944d721dc95e09f54c8bd3a90a5603
+presale.owner=0xa11aae29840fbb5c86e6fd4cf809eba183aef433
+presale.startTime=1510716204 Wed, 15 Nov 2017 03:23:24 UTC
+presale.endTime=1510716309 Wed, 15 Nov 2017 03:25:09 UTC
+presale.cap=1e+22 10000
+presale.rate=0
+presale.totalInvestedInWei=0 0
+presale.minimumContribution=100000000000000000 0.1
+presale.investorsLength=0
+presale.vault=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+presale.isInitialized=true
+
+Waiting until 'startTime' at 1510716204+0s =Wed, 15 Nov 2017 14:23:25 AEDT now=Wed, 15 Nov 2017 14:22:32 AEDT
+Waited until 'startTime' at at 1510716204+0s =Wed, 15 Nov 2017 14:23:25 AEDT now=Wed, 15 Nov 2017 14:23:25 AEDT
+
+Whitelist
+whitelist_1Tx status=0x1 Success gas=2000000 gasUsed=63730 costETH=0.00114714 costUSD=0.23568220728 @ ETH/USD=205.452 gasPrice=18 gwei block=2152 txIx=0 txId=0xef451151539135a7c5d460664b8caf90b632a4c9f9817d5b23a20ee61aebb365 @ 1510716208 Wed, 15 Nov 2017 03:23:28 UTC
+whitelist_2Tx status=0x1 Success gas=2000000 gasUsed=103108 costETH=0.001855944 costUSD=0.381307406688 @ ETH/USD=205.452 gasPrice=18 gwei block=2152 txIx=1 txId=0x993fa0ff6eff5d53ecd4163246b12855ef4e61b0de971e242805d90b305d76ca @ 1510716208 Wed, 15 Nov 2017 03:23:28 UTC
+ # Account                                             EtherBalanceChange                          Token Name
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       72.018895014000000000           0.000000000000000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.018895014000000000           0.000000000000000000 Account #1 - Contract Owner
+ 2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.000000000000000000 Account #2 - Multisig
+ 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+ 4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+ 5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+ 6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+ 7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+ 8 0x27daa9fe81944d721dc95e09f54c8bd3a90a5603        0.000000000000000000           0.000000000000000000 Presale
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+                                                                                    0.000000000000000000 Total Token Balances
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+
+PASS Whitelist - whitelist(account3)
+PASS Whitelist - whitelist([account4, account5, account7])
+presaleContractAddress=0x27daa9fe81944d721dc95e09f54c8bd3a90a5603
+presale.owner=0xa11aae29840fbb5c86e6fd4cf809eba183aef433
+presale.startTime=1510716204 Wed, 15 Nov 2017 03:23:24 UTC
+presale.endTime=1510716309 Wed, 15 Nov 2017 03:25:09 UTC
+presale.cap=1e+22 10000
+presale.rate=0
+presale.totalInvestedInWei=0 0
+presale.minimumContribution=100000000000000000 0.1
+presale.investorsLength=4
+presale.vault=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+presale.isInitialized=true
+
+Whitelist
+blacklist_1Tx status=0x1 Success gas=2000000 gasUsed=18918 costETH=0.000340524 costUSD=0.069961336848 @ ETH/USD=205.452 gasPrice=18 gwei block=2154 txIx=0 txId=0x8cc0e9a1106853db415c2a375259d86715e4792a39a90ea2dc0aca2d6092f278 @ 1510716218 Wed, 15 Nov 2017 03:23:38 UTC
+ # Account                                             EtherBalanceChange                          Token Name
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       78.019235538000000000           0.000000000000000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.019235538000000000           0.000000000000000000 Account #1 - Contract Owner
+ 2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.000000000000000000 Account #2 - Multisig
+ 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+ 4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+ 5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+ 6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+ 7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+ 8 0x27daa9fe81944d721dc95e09f54c8bd3a90a5603        0.000000000000000000           0.000000000000000000 Presale
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+                                                                                    0.000000000000000000 Total Token Balances
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+
+PASS Whitelist - blacklist(account4)
+presaleContractAddress=0x27daa9fe81944d721dc95e09f54c8bd3a90a5603
+presale.owner=0xa11aae29840fbb5c86e6fd4cf809eba183aef433
+presale.startTime=1510716204 Wed, 15 Nov 2017 03:23:24 UTC
+presale.endTime=1510716309 Wed, 15 Nov 2017 03:25:09 UTC
+presale.cap=1e+22 10000
+presale.rate=0
+presale.totalInvestedInWei=0 0
+presale.minimumContribution=100000000000000000 0.1
+presale.investorsLength=3
+presale.vault=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+presale.isInitialized=true
+
+Send Contribution
+sendContribution1_1Tx status=0x1 Success gas=400000 gasUsed=69426 costETH=0.001249668 costUSD=0.256746789936 @ ETH/USD=205.452 gasPrice=18 gwei block=2156 txIx=0 txId=0x49f88ad156306136ef25ffb3124e6c78fd8afd33e0d087269780353fc79b09fe @ 1510716233 Wed, 15 Nov 2017 03:23:53 UTC
+sendContribution1_2Tx status=0x0 Failure gas=400000 gasUsed=21242 costETH=0.000382356 costUSD=0.078555804912 @ ETH/USD=205.452 gasPrice=18 gwei block=2156 txIx=3 txId=0x90e0839e8b92d86e4dd85b27113f9d779e9254bddcf533336be60948e9649314 @ 1510716233 Wed, 15 Nov 2017 03:23:53 UTC
+sendContribution1_3Tx status=0x1 Success gas=400000 gasUsed=54426 costETH=0.000979668 costUSD=0.201274749936 @ ETH/USD=205.452 gasPrice=18 gwei block=2156 txIx=2 txId=0x04ca56fc7fbc1318280a02b345cd582975ab17447cbc24881d7a561d08c90309 @ 1510716233 Wed, 15 Nov 2017 03:23:53 UTC
+sendContribution1_4Tx status=0x0 Failure gas=400000 gasUsed=21242 costETH=0.000382356 costUSD=0.078555804912 @ ETH/USD=205.452 gasPrice=18 gwei block=2156 txIx=1 txId=0xbe9b0968e3eab1b6f6512bb6038ee787487906789527ed56e86a8d7db4d0b492 @ 1510716233 Wed, 15 Nov 2017 03:23:53 UTC
+sendContribution1_5Tx status=0x0 Failure gas=400000 gasUsed=21897 costETH=0.000394146 costUSD=0.080978083992 @ ETH/USD=205.452 gasPrice=18 gwei block=2158 txIx=0 txId=0x3d14b2a96d3aa595a53492978e3cb8184e1a99b6d1f75888a88cd7a61b074012 @ 1510716235 Wed, 15 Nov 2017 03:23:55 UTC
+sendContribution1_6Tx status=0x1 Success gas=400000 gasUsed=54426 costETH=0.000979668 costUSD=0.201274749936 @ ETH/USD=205.452 gasPrice=18 gwei block=2160 txIx=0 txId=0xb3f169a86a02a724594ba063586974359c7854036b5c670b81de30620d4bf83b @ 1510716238 Wed, 15 Nov 2017 03:23:58 UTC
+ # Account                                             EtherBalanceChange                          Token Name
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       96.023603400000000000           0.000000000000000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.019235538000000000           0.000000000000000000 Account #1 - Contract Owner
+ 2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976     9999.000000000000000000           0.000000000000000000 Account #2 - Multisig
+ 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0    -1000.001249668000000000           0.000000000000000000 Account #3
+ 4 0xa44a08d3f6933c69212114bb66e2df1813651844       -0.000382356000000000           0.000000000000000000 Account #4
+ 5 0xa55a151eb00fded1634d27d1127b4be4627079ea    -1000.000979668000000000           0.000000000000000000 Account #5
+ 6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9       -0.000382356000000000           0.000000000000000000 Account #6
+ 7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec    -7999.001373814000000000           0.000000000000000000 Account #7
+ 8 0x27daa9fe81944d721dc95e09f54c8bd3a90a5603        0.000000000000000000           0.000000000000000000 Presale
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+                                                                                    0.000000000000000000 Total Token Balances
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+
+PASS Send Contribution ac3 1000 ETH
+PASS Send Contribution ac4 1000 ETH - Expecting failure, not whitelisted
+PASS Send Contribution ac5 1000 ETH
+PASS Send Contribution ac6 1000 ETH - Expecting failure, not whitelisted
+PASS Send Contribution ac7 8000.00000000001 ETH - Expecting failure, amount will blow the cap
+PASS Send Contribution ac7 7999 ETH
+presaleContractAddress=0x27daa9fe81944d721dc95e09f54c8bd3a90a5603
+presale.owner=0xa11aae29840fbb5c86e6fd4cf809eba183aef433
+presale.startTime=1510716204 Wed, 15 Nov 2017 03:23:24 UTC
+presale.endTime=1510716309 Wed, 15 Nov 2017 03:25:09 UTC
+presale.cap=1e+22 10000
+presale.rate=0
+presale.totalInvestedInWei=9.999e+21 9999
+presale.minimumContribution=100000000000000000 0.1
+presale.investorsLength=3
+presale.vault=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+presale.isInitialized=true
+
+Waiting until 'endTime' at 1510716309+0s =Wed, 15 Nov 2017 14:25:10 AEDT now=Wed, 15 Nov 2017 14:24:01 AEDT
+Waited until 'endTime' at at 1510716309+0s =Wed, 15 Nov 2017 14:25:10 AEDT now=Wed, 15 Nov 2017 14:25:10 AEDT
+
+Send Contribution After End
+sendContribution2_1Tx status=0x0 Failure gas=400000 gasUsed=22233 costETH=0.000400194 costUSD=0.082220657688 @ ETH/USD=205.452 gasPrice=18 gwei block=2179 txIx=0 txId=0xa780705a34d4373217e350cc62d3d7b225ab1ef67db7e551f66416aea8858082 @ 1510716310 Wed, 15 Nov 2017 03:25:10 UTC
+ # Account                                             EtherBalanceChange                          Token Name
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+ 0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e      153.024003594000000000           0.000000000000000000 Account #0 - Miner
+ 1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.019235538000000000           0.000000000000000000 Account #1 - Contract Owner
+ 2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976     9999.000000000000000000           0.000000000000000000 Account #2 - Multisig
+ 3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0    -1000.001649862000000000           0.000000000000000000 Account #3
+ 4 0xa44a08d3f6933c69212114bb66e2df1813651844       -0.000382356000000000           0.000000000000000000 Account #4
+ 5 0xa55a151eb00fded1634d27d1127b4be4627079ea    -1000.000979668000000000           0.000000000000000000 Account #5
+ 6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9       -0.000382356000000000           0.000000000000000000 Account #6
+ 7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec    -7999.001373814000000000           0.000000000000000000 Account #7
+ 8 0x27daa9fe81944d721dc95e09f54c8bd3a90a5603        0.000000000000000000           0.000000000000000000 Presale
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+                                                                                    0.000000000000000000 Total Token Balances
+-- ------------------------------------------ --------------------------- ------------------------------ ---------------------------
+
+PASS Send Contribution After End ac3 1 ETH - Expecting failure, after end
+presaleContractAddress=0x27daa9fe81944d721dc95e09f54c8bd3a90a5603
+presale.owner=0xa11aae29840fbb5c86e6fd4cf809eba183aef433
+presale.startTime=1510716204 Wed, 15 Nov 2017 03:23:24 UTC
+presale.endTime=1510716309 Wed, 15 Nov 2017 03:25:09 UTC
+presale.cap=1e+22 10000
+presale.rate=0
+presale.totalInvestedInWei=9.999e+21 9999
+presale.minimumContribution=100000000000000000 0.1
+presale.investorsLength=3
+presale.vault=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+presale.isInitialized=true
+
