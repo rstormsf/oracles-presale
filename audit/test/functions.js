@@ -243,10 +243,10 @@ function printPresaleContractDetails() {
   if (presaleContractAddress != null && presaleContractAbi != null) {
     var contract = eth.contract(presaleContractAbi).at(presaleContractAddress);
     console.log("RESULT: presale.owner=" + contract.owner());
+    console.log("RESULT: presale.pendingOwner=" + contract.pendingOwner());
     console.log("RESULT: presale.startTime=" + contract.startTime() + " " + new Date(contract.startTime() * 1000).toUTCString());
     console.log("RESULT: presale.endTime=" + contract.endTime() + " " + new Date(contract.endTime() * 1000).toUTCString());
     console.log("RESULT: presale.cap=" + contract.cap() + " " + contract.cap().shift(-18));
-    console.log("RESULT: presale.rate=" + contract.rate());
     console.log("RESULT: presale.totalInvestedInWei=" + contract.totalInvestedInWei() + " " + contract.totalInvestedInWei().shift(-18));
     console.log("RESULT: presale.minimumContribution=" + contract.minimumContribution() + " " + contract.minimumContribution().shift(-18));
     console.log("RESULT: presale.investorsLength=" + contract.investorsLength());
@@ -256,129 +256,20 @@ function printPresaleContractDetails() {
     var latestBlock = eth.blockNumber;
     var i;
 
-//    var newSaleEvents = contract.NewSale({}, { fromBlock: presaleFromBlock, toBlock: latestBlock });
-//    i = 0;
-//    newSaleEvents.watch(function (error, result) {
-//      console.log("RESULT: NewSale " + i++ + " #" + result.blockNumber + ": " + JSON.stringify(result.args));
-//    });
-//    newSaleEvents.stopWatching();
-//
-//    var initializedEvents = contract.Initialized({}, { fromBlock: presaleFromBlock, toBlock: latestBlock });
-//    i = 0;
-//    initializedEvents.watch(function (error, result) {
-//      console.log("RESULT: Initialized " + i++ + " #" + result.blockNumber + ": " + JSON.stringify(result.args));
-//    });
-//    initializedEvents.stopWatching();
-//
-//    var finalizedEvents = contract.Finalized({}, { fromBlock: presaleFromBlock, toBlock: latestBlock });
-//    i = 0;
-//    finalizedEvents.watch(function (error, result) {
-//      console.log("RESULT: Finalized " + i++ + " #" + result.blockNumber + ": " + JSON.stringify(result.args));
-//    });
-//    finalizedEvents.stopWatching();
+    var ownershipTransferredEvents = contract.OwnershipTransferred({}, { fromBlock: presaleFromBlock, toBlock: latestBlock });
+    i = 0;
+    ownershipTransferredEvents.watch(function (error, result) {
+      console.log("RESULT: OwnershipTransferred " + i++ + " #" + result.blockNumber + ": " + JSON.stringify(result.args));
+    });
+    ownershipTransferredEvents.stopWatching();
+
+    var contributionEvents = contract.Contribution({}, { fromBlock: presaleFromBlock, toBlock: latestBlock });
+    i = 0;
+    contributionEvents.watch(function (error, result) {
+      console.log("RESULT: Contribution " + i++ + " #" + result.blockNumber + ": " + JSON.stringify(result.args));
+    });
+    contributionEvents.stopWatching();
 
     presaleFromBlock = parseInt(latestBlock) + 1;
   }
 }
-
-
-////-----------------------------------------------------------------------------
-//// PlaceHolder Contract
-////-----------------------------------------------------------------------------
-//var placeHolderContractAddress = null;
-//var placeHolderContractAbi = null;
-//
-//function addPlaceHolderContractAddressAndAbi(address, abi) {
-//  placeHolderContractAddress = address;
-//  placeHolderContractAbi = abi;
-//}
-//
-//var placeHolderFromBlock = 0;
-//function printPlaceHolderContractDetails() {
-//  console.log("RESULT: placeHolderContractAddress=" + placeHolderContractAddress);
-//  // console.log("RESULT: placeHolderContractAbi=" + JSON.stringify(placeHolderContractAbi));
-//  if (placeHolderContractAddress != null && placeHolderContractAbi != null) {
-//    var contract = eth.contract(placeHolderContractAbi).at(placeHolderContractAddress);
-//    console.log("RESULT: placeHolder.controller=" + contract.controller());
-//    console.log("RESULT: placeHolder.transferable=" + contract.transferable());
-//    var latestBlock = eth.blockNumber;
-//    var i;
-//
-//    var claimedTokensEvents = contract.ClaimedTokens({}, { fromBlock: placeHolderFromBlock, toBlock: latestBlock });
-//    i = 0;
-//    claimedTokensEvents.watch(function (error, result) {
-//      console.log("RESULT: ClaimedTokens " + i++ + " #" + result.blockNumber + ": " + JSON.stringify(result.args));
-//    });
-//    claimedTokensEvents.stopWatching();
-//
-//    placeHolderFromBlock = parseInt(latestBlock) + 1;
-//  }
-//}
-//
-//
-////-----------------------------------------------------------------------------
-//// Token Contract
-////-----------------------------------------------------------------------------
-//var tokenFromBlock = 0;
-//function printTokenContractDetails() {
-//  console.log("RESULT: tokenContractAddress=" + tokenContractAddress);
-//  // console.log("RESULT: tokenContractAbi=" + JSON.stringify(tokenContractAbi));
-//  if (tokenContractAddress != null && tokenContractAbi != null) {
-//    var contract = eth.contract(tokenContractAbi).at(tokenContractAddress);
-//    var decimals = contract.decimals();
-//    console.log("RESULT: token.controller=" + contract.controller());
-//    console.log("RESULT: token.symbol=" + contract.symbol());
-//    console.log("RESULT: token.name=" + contract.name());
-//    console.log("RESULT: token.decimals=" + decimals);
-//    console.log("RESULT: token.totalSupply=" + contract.totalSupply().shift(-decimals));
-//    console.log("RESULT: token.transfersEnabled=" + contract.transfersEnabled());
-//    // console.log("RESULT: token.totalSupplyHistory=" + contract.totalSupplyHistory());
-//
-//    var latestBlock = eth.blockNumber;
-//    var i;
-//
-//    /*
-//    var totalSupplyHistoryLength = contract.totalSupplyHistoryLength();
-//    for (i = 0; i < totalSupplyHistoryLength; i++) {
-//      var e = contract.totalSupplyHistory(i);
-//      console.log("RESULT: totalSupplyHistory(" + i + ") = " + e[0] + " => " + e[1].shift(-decimals));
-//    }
-//
-//    var balanceHistoryLength = contract.balanceHistoryLength(account3);
-//    for (i = 0; i < balanceHistoryLength; i++) {
-//      var e = contract.balanceHistory(account3, i);
-//      console.log("RESULT: balanceHistory(" + account3 + ", " + i + ") = " + e[0] + " => " + e[1].shift(-decimals));
-//    }
-//
-//    var balanceHistoryLength = contract.balanceHistoryLength(account4);
-//    for (i = 0; i < balanceHistoryLength; i++) {
-//      var e = contract.balanceHistory(account4, i);
-//      console.log("RESULT: balanceHistory(" + account4 + ", " + i + ") = " + e[0] + " => " + e[1].shift(-decimals));
-//    }
-//
-//    var balanceHistoryLength = contract.balanceHistoryLength(account5);
-//    for (i = 0; i < balanceHistoryLength; i++) {
-//      var e = contract.balanceHistory(account5, i);
-//      console.log("RESULT: balanceHistory(" + account5 + ", " + i + ") = " + e[0] + " => " + e[1].shift(-decimals));
-//    }
-//    */
-//
-//    var approvalEvents = contract.Approval({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
-//    i = 0;
-//    approvalEvents.watch(function (error, result) {
-//      console.log("RESULT: Approval " + i++ + " #" + result.blockNumber + " _owner=" + result.args._owner + " _spender=" + result.args._spender + " _amount=" +
-//        result.args._amount.shift(-decimals));
-//    });
-//    approvalEvents.stopWatching();
-//
-//    var transferEvents = contract.Transfer({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
-//    i = 0;
-//    transferEvents.watch(function (error, result) {
-//      console.log("RESULT: Transfer " + i++ + " #" + result.blockNumber + ": _from=" + result.args._from + " _to=" + result.args._to +
-//        " _amount=" + result.args._amount.shift(-decimals));
-//    });
-//    transferEvents.stopWatching();
-//
-//    tokenFromBlock = parseInt(latestBlock) + 1;
-//  }
-//}

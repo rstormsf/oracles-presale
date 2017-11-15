@@ -6,8 +6,9 @@
 
 Bok Consulting Pty Ltd was commissioned to perform an audit on the Oracles Network's presale Ethereum smart contract.
 
-This audit has been conducted on Oracles Network's source code in commit
-[5bc4391](https://github.com/oraclesorg/oracles-presale/commit/5bc439115ecebb0a52cfe9305f00f89756c5a90a).
+This audit has been conducted on Oracles Network's source code in commits
+[5bc4391](https://github.com/oraclesorg/oracles-presale/commit/5bc439115ecebb0a52cfe9305f00f89756c5a90a) and
+[565e090](https://github.com/oraclesorg/oracles-presale/commit/565e090b0a2a37f36aedf3c5585cb03f2cfb4b33).
 
 No potential vulnerabilities have been identified in the presale contract.
 
@@ -50,14 +51,15 @@ No tokens are generated for these contributions.
 
 * **LOW IMPORTANCE** Use the OpenZeppelin *Claimable* contract instead of the *Ownable* contract to provide more safety during the
   ownership transfer process
-
+  * [x] Updated in [565e090](https://github.com/oraclesorg/oracles-presale/commit/565e090b0a2a37f36aedf3c5585cb03f2cfb4b33)
 * **LOW IMPORTANCE** The variable `PresaleOracles.rate` is unused and can be removed
-
+  * [x] Updated in [565e090](https://github.com/oraclesorg/oracles-presale/commit/565e090b0a2a37f36aedf3c5585cb03f2cfb4b33)
 * **LOW IMPORTANCE** Consider adding the logging of an event for each contribution, like `Contribution(address investor, uint investorAmount, uint investorTotal, uint totalAmount)`.
   This data can then be easily extracted using a script, if there are many individual contributions
-
+  * [x] Updated in [565e090](https://github.com/oraclesorg/oracles-presale/commit/565e090b0a2a37f36aedf3c5585cb03f2cfb4b33)
 * **LOW IMPORTANCE** `BasicToken` can be replaced with the `ERC20Basic` interface in `PresaleOracles.claimTokens(...)`, and the `BasicToken`
   contract source code can be removed
+  * [x] Updated in [565e090](https://github.com/oraclesorg/oracles-presale/commit/565e090b0a2a37f36aedf3c5585cb03f2cfb4b33)
 
 <br />
 

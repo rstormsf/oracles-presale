@@ -101,6 +101,46 @@ contract Ownable {
 }
 
 // BK Ok
+contract Claimable is Ownable {
+  // BK Ok
+  address public pendingOwner;
+
+  /**
+   * @dev Modifier throws if called by any account other than the pendingOwner.
+   */
+  // BK Ok
+  modifier onlyPendingOwner() {
+    // BK Ok
+    require(msg.sender == pendingOwner);
+    // BK Ok
+    _;
+  }
+
+  /**
+   * @dev Allows the current owner to set the pendingOwner address.
+   * @param newOwner The address to transfer ownership to.
+   */
+  // BK Ok - Only owner can execute
+  function transferOwnership(address newOwner) onlyOwner public {
+    // BK Ok
+    pendingOwner = newOwner;
+  }
+
+  /**
+   * @dev Allows the pendingOwner address to finalize the transfer.
+   */
+  // BK Ok - Only pending owner can execute
+  function claimOwnership() onlyPendingOwner public {
+    // BK Ok - Log event
+    OwnershipTransferred(owner, pendingOwner);
+    // BK Ok
+    owner = pendingOwner;
+    // BK Ok
+    pendingOwner = 0x0;
+  }
+}
+
+// BK Ok
 contract ERC20Basic {
   // BK Ok
   uint256 public totalSupply;
@@ -113,49 +153,7 @@ contract ERC20Basic {
 }
 
 // BK Ok
-contract BasicToken is ERC20Basic {
-  // BK Ok
-  using SafeMath for uint256;
-
-  // BK Ok
-  mapping(address => uint256) balances;
-
-  /**
-  * @dev transfer token for a specified address
-  * @param _to The address to transfer to.
-  * @param _value The amount to be transferred.
-  */
-  // BK Ok
-  function transfer(address _to, uint256 _value) public returns (bool) {
-    // BK Ok
-    require(_to != address(0));
-
-    // SafeMath.sub will throw if there is not enough balance.
-    // BK Ok
-    balances[msg.sender] = balances[msg.sender].sub(_value);
-    // BK Ok
-    balances[_to] = balances[_to].add(_value);
-    // BK Ok - Log event
-    Transfer(msg.sender, _to, _value);
-    // BK Ok
-    return true;
-  }
-
-  /**
-  * @dev Gets the balance of the specified address.
-  * @param _owner The address to query the the balance of.
-  * @return An uint256 representing the amount owned by the passed address.
-  */
-  // BK Ok - Constant function
-  function balanceOf(address _owner) public constant returns (uint256 balance) {
-    // BK Ok
-    return balances[_owner];
-  }
-
-}
-
-// BK Ok
-contract PresaleOracles is Ownable {
+contract PresaleOracles is Claimable {
 /*
  * PresaleOracles
  * Simple Presale contract
@@ -167,7 +165,6 @@ contract PresaleOracles is Ownable {
     uint256 public startTime;
     uint256 public endTime;
     uint256 public cap;
-    uint256 public rate;
     uint256 public totalInvestedInWei;
     uint256 public minimumContribution;
     // BK Next 2 Ok
@@ -211,6 +208,7 @@ contract PresaleOracles is Ownable {
         vault = _vault;
     }
     //TESTED by Roman Storm
+    event Contribution(address indexed investor, uint256 investorAmount, uint256 investorTotal, uint256 totalAmount);
     // BK Ok - Payable
     function buy() public payable {
         // BK Ok
@@ -229,6 +227,8 @@ contract PresaleOracles is Ownable {
         totalInvestedInWei += msg.value;
         // BK Ok
         forwardFunds(msg.value);
+        // BK Ok
+        Contribution(msg.sender, msg.value, investorBalances[investor], totalInvestedInWei);
     }
     
     //TESTED by Roman Storm
@@ -249,7 +249,7 @@ contract PresaleOracles is Ownable {
         }
     
         // BK Ok
-        BasicToken token = BasicToken(_token);
+        ERC20Basic token = ERC20Basic(_token);
         // BK Ok
         uint256 balance = token.balanceOf(this);
         // BK Ok
@@ -316,6 +316,5 @@ contract PresaleOracles is Ownable {
         }
     }
 }
-
 
 ```

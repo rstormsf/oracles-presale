@@ -172,16 +172,17 @@ console.log("RESULT: ");
 var sendContribution1Message = "Send Contribution";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + sendContribution1Message);
-var sendContribution1_1Tx = eth.sendTransaction({from: account3, to: saleAddress, gas: 400000, value: web3.toWei("1000", "ether")});
+var sendContribution1_1Tx = eth.sendTransaction({from: account3, to: saleAddress, gas: 400000, value: web3.toWei("999", "ether")});
 var sendContribution1_2Tx = eth.sendTransaction({from: account4, to: saleAddress, gas: 400000, value: web3.toWei("1000", "ether")});
 var sendContribution1_3Tx = eth.sendTransaction({from: account5, to: saleAddress, gas: 400000, value: web3.toWei("1000", "ether")});
 var sendContribution1_4Tx = eth.sendTransaction({from: account6, to: saleAddress, gas: 400000, value: web3.toWei("1000", "ether")});
 while (txpool.status.pending > 0) {
 }
-var sendContribution1_5Tx = eth.sendTransaction({from: account7, to: saleAddress, gas: 400000, value: web3.toWei("8000.00000000001", "ether")});
+var sendContribution1_5Tx = eth.sendTransaction({from: account3, to: saleAddress, gas: 400000, value: web3.toWei("1", "ether")});
+var sendContribution1_6Tx = eth.sendTransaction({from: account7, to: saleAddress, gas: 400000, value: web3.toWei("8001.00000000001", "ether")});
 while (txpool.status.pending > 0) {
 }
-var sendContribution1_6Tx = eth.sendTransaction({from: account7, to: saleAddress, gas: 400000, value: web3.toWei("7999", "ether")});
+var sendContribution1_7Tx = eth.sendTransaction({from: account7, to: saleAddress, gas: 400000, value: web3.toWei("7999", "ether")});
 while (txpool.status.pending > 0) {
 }
 printTxData("sendContribution1_1Tx", sendContribution1_1Tx);
@@ -190,13 +191,15 @@ printTxData("sendContribution1_3Tx", sendContribution1_3Tx);
 printTxData("sendContribution1_4Tx", sendContribution1_4Tx);
 printTxData("sendContribution1_5Tx", sendContribution1_5Tx);
 printTxData("sendContribution1_6Tx", sendContribution1_6Tx);
+printTxData("sendContribution1_7Tx", sendContribution1_7Tx);
 printBalances();
-failIfTxStatusError(sendContribution1_1Tx, sendContribution1Message + " ac3 1000 ETH");
+failIfTxStatusError(sendContribution1_1Tx, sendContribution1Message + " ac3 999 ETH");
 passIfTxStatusError(sendContribution1_2Tx, sendContribution1Message + " ac4 1000 ETH - Expecting failure, not whitelisted");
 failIfTxStatusError(sendContribution1_3Tx, sendContribution1Message + " ac5 1000 ETH");
 passIfTxStatusError(sendContribution1_4Tx, sendContribution1Message + " ac6 1000 ETH - Expecting failure, not whitelisted");
-passIfTxStatusError(sendContribution1_5Tx, sendContribution1Message + " ac7 8000.00000000001 ETH - Expecting failure, amount will blow the cap");
-failIfTxStatusError(sendContribution1_6Tx, sendContribution1Message + " ac7 7999 ETH");
+failIfTxStatusError(sendContribution1_5Tx, sendContribution1Message + " ac3 1 ETH");
+passIfTxStatusError(sendContribution1_6Tx, sendContribution1Message + " ac7 8000.00000000001 ETH - Expecting failure, amount will blow the cap");
+failIfTxStatusError(sendContribution1_7Tx, sendContribution1Message + " ac7 7999 ETH");
 printPresaleContractDetails();
 console.log("RESULT: ");
 
