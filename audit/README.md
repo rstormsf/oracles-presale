@@ -16,7 +16,9 @@ No potential vulnerabilities have been identified in the presale contract.
 
 ### Mainnet Addresses
 
-`TBA`
+* PresaleOracles - [0xc8fe4a2d14Cb9027Ef955D15E8BF811a6DB0Bf74](https://etherscan.io/address/0xc8fe4a2d14Cb9027Ef955D15E8BF811a6DB0Bf74#code)
+  with a copy of the deployed code saved in [deployed-contracts/PresaleOracles_deployed_at_0xc8fe4a2d14Cb9027Ef955D15E8BF811a6DB0Bf74.sol](deployed-contracts/PresaleOracles_deployed_at_0xc8fe4a2d14Cb9027Ef955D15E8BF811a6DB0Bf74.sol)
+* Wallet - [0x04c62019ab478bFf5874E7B7D9bC84FCF7e30025](https://etherscan.io/address/0x04c62019ab478bFf5874E7B7D9bC84FCF7e30025#code)
 
 <br />
 
