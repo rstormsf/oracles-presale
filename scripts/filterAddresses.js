@@ -1,24 +1,24 @@
 require('dotenv').config();
 const ContributionABI = require('../build/contracts/PresaleOracles.json').abi;
 
-// const Web3 = require('web3');
-// const MAINET_RPC_URL = 'https://mainnet.infura.io/metamask'
-// const KOVAN_RPC_URL = 'https://kovan.infura.io/metamask'
-// const local = `http://localhost:${process.env.RPC_PORT}`;
-// const provider = new Web3.providers.HttpProvider(local);
-// const web3 = new Web3(provider);
-// var myContract = new web3.eth.Contract(ContributionABI, process.env.PRESALE_ADDRESS);
-// const ARRAY_OF_ADDRESSES = require('./ARRAY_OF_ADDRESSES.json');
+const Web3 = require('web3');
+const MAINET_RPC_URL = 'https://mainnet.infura.io/metamask'
+const KOVAN_RPC_URL = 'https://kovan.infura.io/metamask'
+const RINKEBY_RPC_URL = 'https://rinkeby.infura.io/metamask'
+const local = `http://localhost:${process.env.RPC_PORT}`;
+const provider = new Web3.providers.HttpProvider(MAINET_RPC_URL);
+const web3 = new Web3(provider);
+var myContract = new web3.eth.Contract(ContributionABI, process.env.PRESALE_ADDRESS);
+const ARRAY_OF_ADDRESSES = require('./ARRAY_OF_ADDRESSES.json');
 // filterAddresses(ARRAY_OF_ADDRESSES).then(console.log)
 // readCap();
 function setup({web3Param, contribAddress}){
-    web3 = web3Param;
+    // web3 = web3Param;
     CONTRIBUTION_ADDRESS = contribAddress
     myContract = new web3.eth.Contract(ContributionABI, CONTRIBUTION_ADDRESS);
 }
-
 function readCap() {
-    myContract.methods.investorsLength().call().then((cap) => {
+    myContract.methods.cap().call().then((cap) => {
         console.log('cap', cap);
     })
 }

@@ -1,13 +1,21 @@
 require('dotenv').config();
+var Tx = require('ethereumjs-tx');
+
 let ARRAY_OF_ADDRESSES = require('./ARRAY_OF_ADDRESSES.json');
 ARRAY_OF_ADDRESSES = Array.from(new Set(ARRAY_OF_ADDRESSES));
 const RPC_PORT = process.env.RPC_PORT;
 const PRESALE_ADDRESS = process.env.PRESALE_ADDRESS;
 const UNLOCKED_ADDRESS = process.env.UNLOCKED_ADDRESS;
-
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const ICO_ABI = require('../build/contracts/PresaleOracles.json').abi;
+
 const Web3 = require('web3');
-const provider = new Web3.providers.HttpProvider(`http://localhost:${RPC_PORT}`);
+const MAINET_RPC_URL = 'https://mainnet.infura.io/metamask';
+const KOVAN_RPC_URL = 'https://kovan.infura.io/metamask'
+const RINKEBY_RPC_URL = 'https://rinkeby.infura.io/metamask'
+const provider = new Web3.providers.HttpProvider(MAINET_RPC_URL);
+const privateKey = Buffer.from(PRIVATE_KEY, 'hex')
+// const provider = new Web3.providers.HttpProvider(`http://localhost:${RPC_PORT}`);
 const web3 = new Web3(provider);
 
 const { filterAddresses, setup } = require('./filterAddresses');
@@ -27,7 +35,7 @@ filterAddresses(ARRAY_OF_ADDRESSES).then(async (toWhitelist) => {
     console.log('current whitelisted investors: ', currentInvestors);
     console.log('to whitelist', toWhitelist.length);
     console.log('Expected total whitelisted count after execution', toWhitelist.length + currentInvestors);
-    const addPerTx = 160;
+    const addPerTx = 140;
     const slices = Math.ceil(toWhitelist.length / addPerTx);
     console.log(`THIS SCRIPT WILL GENERATE ${slices} transactions`);
     var txcount = await web3.eth.getTransactionCount(UNLOCKED_ADDRESS);
@@ -52,9 +60,21 @@ async function sendTransactionToContribution({array, slice, addPerTx, nonce}) {
             from: UNLOCKED_ADDRESS, to: PRESALE_ADDRESS, data: encodedData, gas: GAS_LIMIT, gasPrice: GAS_PRICE
         }).then((gasNeeded) => {
             console.log('gasNeeded', gasNeeded);
-            web3.eth.sendTransaction({
-                from: UNLOCKED_ADDRESS, to: PRESALE_ADDRESS, data: encodedData, gas: gasNeeded, gasPrice: GAS_PRICE, nonce
-            }).on('transactionHash', function(hash){console.log('hash', hash)});
+            var rawTx = {
+                nonce: nonce,
+                gasPrice:  web3.utils.toHex(GAS_PRICE),
+                gasLimit:   web3.utils.toHex(gasNeeded),
+                to: PRESALE_ADDRESS,
+                data: encodedData
+              }
+              var tx = new Tx(rawTx);
+              tx.sign(privateKey);
+              var serializedTx = tx.serialize();
+              web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex')).on('transactionHash', function(hash){console.log('hash', hash)});
+            //   console.log(receipt);
+            // web3.eth.sendTransaction({
+            //     from: UNLOCKED_ADDRESS, to: PRESALE_ADDRESS, data: encodedData, gas: gasNeeded, gasPrice: GAS_PRICE, nonce
+            // }).on('transactionHash', function(hash){console.log('hash', hash)});
             slice--;
             if (slice > 0) {
                 nonce = parseInt(nonce, 16);
